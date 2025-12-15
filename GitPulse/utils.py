@@ -58,6 +58,6 @@ def get_date_ranges(duration: str, calendar_mode: bool = False) -> str:
 
     else:
         days_map = {"day": 1, "week": 7, "month": 30, "year": 365}
-        return get_last_x_days(days_map.get(duration, 1))
+        return get_last_x_days(days_map.get(duration, 7))
 
     return get_last_x_days(7)
