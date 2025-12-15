@@ -3,8 +3,8 @@ import json
 import sys
 
 
-def fetch_repos(date_range: str):
-    url = f"https://api.github.com/search/repositories?q=pushed:{date_range}&sort=stars&order=desc"
+def fetch_repos(date_range: str, language: str = None):
+    url = f"https://api.github.com/search/repositories?q=pushed:{date_range} language:{language}&sort=stars&order=desc"
 
     res = requests.get(url)
 
