@@ -2,6 +2,7 @@ import argparse
 import utils
 
 import config
+import formatter
 import github_api
 
 parser = argparse.ArgumentParser(
@@ -41,4 +42,6 @@ date_range = utils.get_date_ranges(args.duration, args.calendar)
 language = args.language
 limit = args.limit
 
-github_api.fetch_repos(date_range, language, limit)
+repos = github_api.fetch_repos(date_range, language, limit)
+
+formatter.format_repos(repos)
