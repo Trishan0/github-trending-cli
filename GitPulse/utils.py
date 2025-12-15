@@ -8,7 +8,8 @@ start_of_last_week = start_of_this_week - timedelta(days=7)
 end_of_last_week = start_of_this_week - timedelta(days=1)
 
 def get_last_x_days(x:int)->date:
-    return today - timedelta(days=x)
+    target_date = today - timedelta(days=x)
+    return f">{target_date}"
 
 def get_previous_week_range():
     query_param = f"{start_of_last_week}..{end_of_last_week}"
