@@ -2,7 +2,7 @@ import requests
 import json
 import sys
 
-import config
+from . import config
 
 
 def fetch_repos(date_range: str, language: str = None, limit: int = 10):
