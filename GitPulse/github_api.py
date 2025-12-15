@@ -3,7 +3,7 @@ import json
 import sys
 
 
-def fetch_repos(date_range: str, language: str = None):
+def fetch_repos(date_range: str, language: str = None, limit: int = 10):
     url = f"https://api.github.com/search/repositories?q=pushed:{date_range} language:{language}&sort=stars&order=desc"
 
     res = requests.get(url)
@@ -17,7 +17,7 @@ def fetch_repos(date_range: str, language: str = None):
     if res.status_code == 200:
         repo_data = res.json()
 
-        for item in repo_data["items"][:5]:
+        for item in repo_data["items"][:limit]:
             print(f"Repository Name: {item['name']}")
             print(f"Language: {item['language']}")
             print(f"Stars: {item['stargazers_count']}")
