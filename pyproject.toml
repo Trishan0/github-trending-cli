@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitpulse"
+version = "1.0.0"
+description = "CLI tool to view GitHub trending repositories"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.32.5",
+    "rich>=14.2.0",
+]
+
+[project.scripts]
+gitpulse = "GitPulse.cli:main"
