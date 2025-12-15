@@ -3,30 +3,28 @@ import json
 import sys
 
 
-if (args_count := len(sys.argv)) != 2:
-    print("Usage: python github_api.py <language>")
-    sys.exit(1)
-lang_name = sys.argv[1]
+def fetch_repos(date_range: str):
+    url = f"https://api.github.com/search/repositories?q=pushed:{date_range}&sort=stars&order=desc"
 
+    res = requests.get(url)
 
-url=f"https://api.github.com/search/repositories?q=stars:>1 language:{lang_name}&sort=stars&order=desc"
+    if res.status_code != 200:
+        print(
+            f"Error: Unable to fetch data from GitHub API (Status Code: {res.status_code})"
+        )
+        sys.exit(1)
 
-res = requests.get(url)
+    if res.status_code == 200:
+        repo_data = res.json()
 
-if res.status_code != 200:
-    print(f"Error: Unable to fetch data from GitHub API (Status Code: {res.status_code})")
-    sys.exit(1)
-
-if res.status_code == 200:
-    repo_data = res.json()
-    
-    
-    for item in repo_data['items'][:5]:
-        print(f"Repository Name: {item['name']}")
-        print(f"Language: {item['language']}")
-        print(f"Stars: {item['stargazers_count']/1000}k")
-        print(f"Forks: {item['forks_count']/1000}k")
-        print(f"Open Issues: {item['open_issues_count']}")
-        print(f"URL: {item['html_url']}")
-        print("-" * 40)
-    
+        for item in repo_data["items"][:5]:
+            print(f"Repository Name: {item['name']}")
+            print(f"Language: {item['language']}")
+            print(f"Stars: {item['stargazers_count']}")
+            print(f"Forks: {item['forks_count']}")
+            print(f"Open Issues: {item['open_issues_count']}")
+            print(f"Created At: {item['created_at']}")
+            print(f"Updated At: {item['updated_at']}")
+            print(f"Pushed At: {item['pushed_at']}")
+            print(f"URL: {item['html_url']}")
+            print("-" * 40)
