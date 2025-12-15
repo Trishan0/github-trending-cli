@@ -25,9 +25,14 @@ parser.add_argument(
     "-l", "--language", type=str, help="Programming language to filter repositories"
 )
 
+parser.add_argument(
+    "--limit", type=int, help="Number of repositories to display", default=10
+)
+
 args = parser.parse_args()
 
 date_range = utils.get_date_ranges(args.duration, args.calendar)
 language = args.language
+limit = args.limit
 
-github_api.fetch_repos(date_range, language)
+github_api.fetch_repos(date_range, language, limit)
