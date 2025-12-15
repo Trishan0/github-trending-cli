@@ -6,32 +6,37 @@ import config
 
 
 def fetch_repos(date_range: str, language: str = None, limit: int = 10):
+    query = f"pushed:{date_range}"
     if language:
-        url = f"{config.GITHUB_API_BASE_URL}?q=pushed:{date_range} language:{language}&sort=stars&order=desc"
-    else:
-        url = (
-            f"{config.GITHUB_API_BASE_URL}?q=pushed:{date_range}&sort=stars&order=desc"
-        )
+        query += f" language:{language}"
 
-    res = requests.get(url)
+    url = (
+        f"{config.GITHUB_API_BASE_URL}?q={query}&sort=stars&order=desc&per_page={limit}"
+    )
 
-    if res.status_code != 200:
-        print(
-            f"Error: Unable to fetch data from GitHub API (Status Code: {res.status_code})"
-        )
-        sys.exit(1)
+    try:
+        res = requests.get(url)
 
-    if res.status_code == 200:
-        repo_data = res.json()
+        if res.status_code != 200:
+            print(
+                f"Error: Unable to fetch data from GitHub API (Status Code: {res.status_code})"
+            )
+            sys.exit(1)
 
-        for item in repo_data["items"][:limit]:
-            print(f"Repository Name: {item['name']}")
-            print(f"Language: {item['language']}")
-            print(f"Stars: {item['stargazers_count']}")
-            print(f"Forks: {item['forks_count']}")
-            print(f"Open Issues: {item['open_issues_count']}")
-            print(f"Created At: {item['created_at']}")
-            print(f"Updated At: {item['updated_at']}")
-            print(f"Pushed At: {item['pushed_at']}")
-            print(f"URL: {item['html_url']}")
-            print("-" * 40)
+        if res.status_code == 200:
+            repo_data = res.json()
+            items = repo_data["items"]
+
+            if language and items:
+                has_match = any(
+                    item.get("language", "").lower() == language.lower()
+                    for item in items
+                )
+                if not has_match:
+                    print(
+                        f"⚠️  Warning: No repositories found for language '{language}'. Showing results without language filter.\n"
+                    )
+            return items
+    except requests.RequestException as e:
+        print(f"Network error occurred: {e}")
+        return []
