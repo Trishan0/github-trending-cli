@@ -1,5 +1,7 @@
 import argparse
 import utils
+
+import config
 import github_api
 
 parser = argparse.ArgumentParser(
@@ -14,8 +16,9 @@ parser.add_argument(
     "-d",
     "--duration",
     type=str,
-    choices=["day", "week", "month", "year"],
+    choices=config.VALID_DURATIONS,
     help="Time duration to filter repositories",
+    default=config.DEFAULT_DURATION,
 )
 parser.add_argument(
     "-c", "--calendar", action="store_true", help="Use calendar-based date ranges"
@@ -26,7 +29,10 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--limit", type=int, help="Number of repositories to display", default=10
+    "--limit",
+    type=int,
+    help="Number of repositories to display",
+    default=config.DEFAULT_LIMIT,
 )
 
 args = parser.parse_args()

@@ -2,9 +2,16 @@ import requests
 import json
 import sys
 
+import config
+
 
 def fetch_repos(date_range: str, language: str = None, limit: int = 10):
-    url = f"https://api.github.com/search/repositories?q=pushed:{date_range} language:{language}&sort=stars&order=desc"
+    if language:
+        url = f"{config.GITHUB_API_BASE_URL}?q=pushed:{date_range} language:{language}&sort=stars&order=desc"
+    else:
+        url = (
+            f"{config.GITHUB_API_BASE_URL}?q=pushed:{date_range}&sort=stars&order=desc"
+        )
 
     res = requests.get(url)
 
