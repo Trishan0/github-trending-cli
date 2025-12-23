@@ -1,5 +1,7 @@
 # GitPulse 🔥
 
+[Read the Medium Article](https://trishan-fernando.medium.com/gitpulse-github-trending-tool-8ab2c4257da3) 
+
 A beautiful command-line tool to discover trending GitHub repositories. Filter by time range, programming language, and get instant insights into what's hot in the developer community.
 
 ## Features ✨
